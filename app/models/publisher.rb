@@ -10,7 +10,12 @@
 
 class Publisher < ApplicationRecord
   has_many :books
-  # has_many :shops, through: :books
+  has_many :stocks, through: :books
 
   validates :name, presence: true
+
+  def shops
+    shop_ids = stocks.pluck(:shop_id).uniq
+    Shop.where(id: shop_ids).sales
+  end
 end

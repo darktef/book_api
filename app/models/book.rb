@@ -16,4 +16,6 @@ class Book < ApplicationRecord
   has_many :shops, through: :stocks
 
   validates :publisher, :title, presence: true
+
+  scope :in_stock, -> { joins(:stocks).where('stocks.copies > ?', 0) }
 end

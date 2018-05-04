@@ -14,4 +14,6 @@ class Shop < ApplicationRecord
   has_many :books, through: :stocks
 
   validates :name, presence: true
+
+  scope :sales, -> { order(books_sold_count: :desc) }
 end
