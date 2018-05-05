@@ -18,4 +18,16 @@ class Stock < ApplicationRecord
   validates :shop_id, uniqueness: { scope: [:book_id] }
 
   scope :in_stock, -> { where('copies > ?', 0) }
+
+  before_update :update_book_sold_count_on_shop, if: ->(obj) { obj.copies_changed? }
+
+  # Update the book sold count on shop whenever one or more copies
+  # of book are sold
+  def update_book_sold_count_on_shop
+    diff = changes['copies'].reduce(&:-)
+
+    return if diff < 0
+    sold = shop.books_sold_count + diff
+    shop.update(books_sold_count: sold)
+  end
 end

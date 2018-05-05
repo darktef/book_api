@@ -14,6 +14,7 @@ class Publisher < ApplicationRecord
 
   validates :name, presence: true
 
+  # Identify the shop which sell the books published by the publisher
   def shops
     shop_ids = stocks.pluck(:shop_id).uniq
     Shop.where(id: shop_ids).sales
