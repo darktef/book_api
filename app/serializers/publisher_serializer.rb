@@ -7,7 +7,7 @@ class PublisherSerializer < ActiveModel::Serializer
     shops = []
 
     @object.shops.each do |shop|
-      shop = {
+      shop_hash = {
         id: shop.id,
         name: shop.name,
         books_sold_count: shop.books_sold_count,
@@ -15,14 +15,14 @@ class PublisherSerializer < ActiveModel::Serializer
       }
 
       shop.books.in_stock.where(publisher: @object).each do |b|
-        books_in_stock << {
+        shop_hash[:books_in_stock] << {
           id: b.id,
           title: b.title,
           copies_in_stock: b.stocks.find_by(shop: shop).copies
         }
       end
 
-      shops << shop
+      shops << shop_hash
     end
 
     shops

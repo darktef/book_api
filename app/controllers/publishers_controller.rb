@@ -1,5 +1,5 @@
 class PublishersController < ApplicationController
   def show
-    json_response(@publisher)
+    render json: @publisher, serializer: PublisherSerializer
   end
 end
