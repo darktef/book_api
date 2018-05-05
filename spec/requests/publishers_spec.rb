@@ -1,4 +1,4 @@
-require 'rails/helper'
+require 'rails_helper'
 
 RSpec.describe 'Publisher Endpoint', type: :request do
   let!(:publisher)   { create :publisher }

@@ -15,4 +15,7 @@ class Stock < ApplicationRecord
   belongs_to :shop
 
   validates :book, :shop, :copies, presence: true
+  validates :shop_id, uniqueness: { scope: [:book_id] }
+
+  scope :in_stock, -> { where('copies > ?', 0) }
 end
